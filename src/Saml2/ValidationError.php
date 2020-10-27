@@ -93,7 +93,11 @@ class ValidationError extends Exception
             $args = array();
         }
         $params = array_merge(array($msg), $args);
-        $message = call_user_func_array('sprintf', $params);
+	$htmlParams = [];
+        foreach ($params as $param) {
+            $htmlParams[] = str_replace('%', '%%', $param);
+        }
+        $message = call_user_func_array('sprintf', $htmlParams);
 
         parent::__construct($message, $code);
     }
